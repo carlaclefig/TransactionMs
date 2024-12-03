@@ -1,0 +1,31 @@
+PRUEBAS APIS HTTP
+
+**Registrar un depósito: 
+POST http://localhost:8083/api/transactions/deposit
+{
+  "type": "Deposit",
+  "amount": 100.0,
+  "sourceAccount": "12345",
+  "destinationAccount": null
+}
+
+**Registrar un retiro:
+POST http://localhost:8083/api/transactions/withdraw
+{
+  "type": "Withdraw",
+  "amount": 50.0,
+  "sourceAccount": "12345",
+  "destinationAccount": null
+}
+
+**Registrar una transferencia: 
+POST http://localhost:8083/api/transactions/transfer
+{
+  "type": "Transfer",
+  "amount": 200.0,
+  "sourceAccount": "12345",
+  "destinationAccount": "67890"
+}
+
+**Consultar historial de transacciones:
+GET http://localhost:8083/api/transactions

@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "9e926da0-789f-430b-b867-590bfb0ab392",
+		"name": "TransactionsMs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "39376705"
+	},
+	"item": [
+		{
+			"name": "Registrar un Depósito",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"Deposit\",\r\n  \"amount\": 100.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/api/transactions/deposit"
+			},
+			"response": [
+				{
+					"name": "Depósito",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Deposit\",\r\n  \"amount\": 100.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8083/api/transactions/deposit"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "152"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"674f7913d633bd1ba209c3dd\",\n    \"type\": \"Deposit\",\n    \"amount\": 100,\n    \"sourceAccount\": \"12345\",\n    \"destinationAccount\": null,\n    \"date\": \"2024-12-03T16:33:07.6408502\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Registrar un Retiro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"Withdraw\",\r\n  \"amount\": 50.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/api/transactions/withdraw"
+			},
+			"response": [
+				{
+					"name": "Retiro",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Withdraw\",\r\n  \"amount\": 50.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8083/api/transactions/withdraw"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "152"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"674f7971d633bd1ba209c3de\",\n    \"type\": \"Withdraw\",\n    \"amount\": 50,\n    \"sourceAccount\": \"12345\",\n    \"destinationAccount\": null,\n    \"date\": \"2024-12-03T16:34:41.7734799\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Registrar una Transferencia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"Transfer\",\r\n  \"amount\": 200.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": \"67890\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8083/api/transactions/transfer"
+			},
+			"response": [
+				{
+					"name": "Transferencia",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"type\": \"Transfer\",\r\n  \"amount\": 200.0,\r\n  \"sourceAccount\": \"12345\",\r\n  \"destinationAccount\": \"67890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8083/api/transactions/transfer"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "156"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"674f79c5d633bd1ba209c3df\",\n    \"type\": \"Transfer\",\n    \"amount\": 200,\n    \"sourceAccount\": \"12345\",\n    \"destinationAccount\": \"67890\",\n    \"date\": \"2024-12-03T16:36:05.1257298\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Consultar el Historial de Transacciones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8083/api/transactions"
+			},
+			"response": [
+				{
+					"name": "Historial",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8083/api/transactions"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "transfer-encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"674f7913d633bd1ba209c3dd\",\n        \"type\": \"Deposit\",\n        \"amount\": 100,\n        \"sourceAccount\": \"12345\",\n        \"destinationAccount\": null,\n        \"date\": \"2024-12-03T16:33:07.64\"\n    },\n    {\n        \"id\": \"674f7971d633bd1ba209c3de\",\n        \"type\": \"Withdraw\",\n        \"amount\": 50,\n        \"sourceAccount\": \"12345\",\n        \"destinationAccount\": null,\n        \"date\": \"2024-12-03T16:34:41.773\"\n    },\n    {\n        \"id\": \"674f79c5d633bd1ba209c3df\",\n        \"type\": \"Transfer\",\n        \"amount\": 200,\n        \"sourceAccount\": \"12345\",\n        \"destinationAccount\": \"67890\",\n        \"date\": \"2024-12-03T16:36:05.125\"\n    }\n]"
+				}
+			]
+		}
+	]
+}
