@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: XYZ Bank - Transaction Service API
+  description: API para gestionar transacciones en el banco XYZ
+  version: 1.0.0
+servers:
+  - url: http://localhost:8083/api
+    description: Servidor local de desarrollo
+paths:
+  /transacciones/deposito:
+    post:
+      summary: Registrar un depósito
+      operationId: createDeposit
+      requestBody:
+        description: Detalles del depósito
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositRequest'
+      responses:
+        '201':
+          description: Depósito registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Entrada inválida
+        '404':
+          description: Cuenta no encontrada
+        '500':
+          description: Error inesperado
+  /transacciones/retiro:
+    post:
+      summary: Registrar un retiro
+      operationId: createWithdrawal
+      requestBody:
+        description: Detalles del retiro
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WithdrawalRequest'
+      responses:
+        '201':
+          description: Retiro registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Entrada inválida o saldo insuficiente
+        '404':
+          description: Cuenta no encontrada
+        '500':
+          description: Error inesperado
+  /transacciones/transferencia:
+    post:
+      summary: Registrar una transferencia
+      operationId: createTransfer
+      requestBody:
+        description: Detalles de la transferencia
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '201':
+          description: Transferencia registrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Entrada inválida o saldo insuficiente
+        '404':
+          description: Cuenta no encontrada
+        '500':
+          description: Error inesperado
+  /transacciones/historial:
+    get:
+      summary: Consultar historial de transacciones
+      operationId: getTransactionHistory
+      parameters:
+        - name: cuentaId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Historial de transacciones obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Cuenta no encontrada
+        '500':
+          description: Error inesperado
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        tipo:
+          type: string
+          enum:
+            - DEPOSITO
+            - RETIRO
+            - TRANSFERENCIA
+        monto:
+          type: number
+          example: 100
+        fecha:
+          type: string
+          format: date-time
+          example: '2024-11-18 10:00:00'
+        cuentaOrigenId:
+          type: integer
+          example: 1
+        cuentaDestinoId:
+          type: integer
+          example: 2
+    DepositRequest:
+      type: object
+      properties:
+        cuentaOrigenId:
+          type: integer
+          example: 1
+        monto:
+          type: number
+          example: 100
+    WithdrawalRequest:
+      type: object
+      properties:
+        cuentaOrigenId:
+          type: integer
+          example: 1
+        monto:
+          type: number
+          example: 50
+    TransferRequest:
+      type: object
+      properties:
+        cuentaOrigenId:
+          type: integer
+          example: 1
+        cuentaDestinoId:
+          type: integer
+          example: 2
+        monto:
+          type: number
+          example: 50
