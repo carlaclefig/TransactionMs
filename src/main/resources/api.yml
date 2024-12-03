@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                $ref: '#/components/schemas/TransactionDTO'
         '400':
           description: Entrada inválida
         '404':
@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                $ref: '#/components/schemas/TransactionDTO'
         '400':
           description: Entrada inválida o saldo insuficiente
         '404':
@@ -72,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'
+                $ref: '#/components/schemas/TransactionDTO'
         '400':
           description: Entrada inválida o saldo insuficiente
         '404':
@@ -97,14 +97,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transaction'
+                  $ref: '#/components/schemas/TransactionDTO'
         '404':
           description: Cuenta no encontrada
         '500':
           description: Error inesperado
 components:
   schemas:
-    Transaction:
+    TransactionDTO:
       type: object
       properties:
         id:

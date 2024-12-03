@@ -41,6 +41,38 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 		<dependency>
@@ -73,6 +105,30 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>5.1.0</version>
+
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
+							<generatorName>spring</generatorName>
+							<modelPackage>com.example.TransactionMs.model</modelPackage>
+							<apiPackage>com.example.TransactionMs.api</apiPackage>
+							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<configOptions>
+								<delegatePattern>true</delegatePattern>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 
 		<!-- Jacoco plugin para cobertura -->
@@ -108,15 +164,15 @@
 						</limits>
 					</rule>
 				</rules>
-<!--				<excludes>-->
-<!--					&lt;!&ndash; Excluir paquete completo &ndash;&gt;-->
-<!--					<exclude>com/xyzbank/AccountMs/model/*</exclude>-->
-<!--					<exclude>com/xyzbank/AccountMs/controller/*</exclude>-->
-<!--					<exclude>com/xyzbank/AccountMs/api/*</exclude>-->
-<!--					&lt;!&ndash; Excluir una clase específica &ndash;&gt;-->
-<!--					<exclude>com/xyzbank/AccountMs/AccountMsApplication.class</exclude>-->
-<!--					<exclude>*$*</exclude>-->
-<!--				</excludes>-->
+				<excludes>
+					<!-- Excluir paquete completo -->
+					<exclude>com/example/TransactionMs/controller/*</exclude>
+					<exclude>com/example/TransactionMs/api/*</exclude>
+					<exclude>com/example/TransactionMs/model/*</exclude>
+					<!-- Excluir una clase específica -->
+					<exclude>com/example/TransactionMs/TransactionMsApplication.class</exclude>
+					<exclude>*$*</exclude>
+				</excludes>
 			</configuration>
 		</plugin>
 
