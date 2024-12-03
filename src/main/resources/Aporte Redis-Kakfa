@@ -1,0 +1,43 @@
+TransactionsMs
+
+Casos de Redis:
+1.	Caso Real: Gestión de Caché de Consultas Frecuentes (Historial de Transacciones)
+En un sistema bancario, los usuarios consultan frecuentemente su historial de transacciones. Consultar directamente la base de datos cada vez puede generar una alta latencia y sobrecarga en el sistema.
+Usando Redis:
+Cuando un usuario consulta su historial, el sistema verifica primero en Redis para obtener una respuesta rápida. Si los datos están disponibles y no han expirado (por ejemplo, tras 1 hora, como tiempo de vida configurado), se entregan de inmediato, garantizando información actualizada. En caso de que Redis no contenga los datos, el sistema realiza una consulta a la base de datos, almacena los resultados en Redis y los proporciona al usuario.
+Beneficios:
+•	Rendimiento Mejorado: Consultar datos en memoria es significativamente más rápido que en la base de datos.
+•	Reducción de Carga: Disminuye el número de consultas directas a la base de datos.
+•	Escalabilidad: Redis es capaz de manejar múltiples usuarios concurrentes con tiempos de respuesta óptimos.
+
+2.	Caso Hipotético: Gestión de Reintentos de Transacciones
+En un sistema bancario, algunas transacciones pueden fallar debido a problemas temporales, como desconexiones de red o servicios inactivos. En lugar de realizar reintentos inmediatos, Redis se utiliza para almacenar temporalmente las transacciones fallidas, permitiendo que el sistema las procese posteriormente según una política definida.
+Usando Redis:
+Las transacciones fallidas se registran en una lista de Redis utilizando el comando LPUSH, asignándoles un identificador único. Este mecanismo permite un acceso rápido y eficiente a las transacciones pendientes de resolver.
+Un proceso en segundo plano supervisa esta lista empleando el comando BRPOP, extrayendo y reintentando procesar las transacciones en intervalos específicos. Cuando el procesamiento es exitoso, la transacción se elimina de Redis.
+Para evitar acumulaciones innecesarias, cada transacción fallida tiene un tiempo de expiración configurado. Si la transacción no se procesa con éxito tras varios intentos, Redis la elimina automáticamente.
+Beneficios:
+•	Eficiencia: Redis permite almacenar y recuperar transacciones fallidas de forma rápida sin necesidad de involucrar la base de datos.
+•	Flexibilidad: Es posible aplicar diferentes políticas de reintento para distintos tipos de errores.
+•	Escalabilidad: Redis maneja grandes volúmenes de datos en memoria con bajo impacto en el rendimiento.
+
+
+Casos de Kafka:
+1.	Caso Real: Eventos de Transacciones para Auditoría y Registro
+Cada transacción bancaria (depósitos, retiros, transferencias) debe ser auditada y registrada para garantizar la transparencia y cumplimiento normativo. Kafka permite emitir eventos para cada transacción, que pueden ser procesados por otros microservicios en tiempo real.
+Usando Kafka:
+Cada vez que se realiza una transacción, el sistema publica un evento en un topic de Kafka. Este evento incluye detalles clave, como el tipo de operación, el monto y las cuentas involucradas. Microservicios especializados, como los de auditoría o detección de fraude, están suscritos al topic. Estos procesan los eventos en tiempo real, generando reportes, auditando transacciones o identificando patrones sospechosos según sea necesario. Los microservicios consumidores operan de manera independiente del productor por el uso de Kafka. Esto les permite procesar los eventos a su propio ritmo, optimizando el rendimiento del sistema y manteniendo la flexibilidad en el flujo de trabajo.
+Beneficios:
+•	Procesamiento en Tiempo Real: Permite analizar y reaccionar inmediatamente a las transacciones.
+•	Desacoplamiento: Facilita la comunicación entre microservicios, reduciendo dependencias.
+•	Confiabilidad y Escalabilidad: Kafka gestiona grandes volúmenes de datos y asegura que los eventos no se pierdan, incluso con interrupciones temporales en los consumidores.
+
+2.	Caso Hipotético: Detección de Fraude en Tiempo Real
+En un sistema de monitoreo que identifica patrones sospechosos en transacciones bancarias, como múltiples intentos de retiro en cuentas recientemente activadas. Kafka se utiliza para transmitir los eventos de transacciones en tiempo real, permitiendo que un servicio de detección de fraudes analice estos datos y genere alertas instantáneas.
+Usando Kafka:
+Cada vez que se realiza una transacción, el microservicio correspondiente publica un evento en un topic de Kafka. Este evento incluye detalles clave, como el tipo de operación, el monto y el timestamp. Simultáneamente, el sistema de detección de fraudes se suscribe a este topic y procesa los eventos en tiempo real. Utilizando algoritmos de machine learning o reglas predefinidas, identifica patrones sospechosos en las transacciones.
+Cuando se detecta un posible fraude, el sistema responde de inmediato generando una alerta automática o bloqueando temporalmente la cuenta afectada, garantizando así la protección del cliente.
+Beneficios:
+•	Procesamiento en Tiempo Real: Kafka permite analizar las transacciones en el momento en que ocurren, crucial para prevenir fraudes.
+•	Escalabilidad: Maneja grandes volúmenes de eventos de manera eficiente.
+•	Desacoplamiento: El sistema de detección de fraudes opera de forma independiente del microservicio de transacciones, mejorando la resiliencia y modularidad.
